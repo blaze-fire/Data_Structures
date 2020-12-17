@@ -13,9 +13,8 @@ void Insert (int data){
   node *temp1=new node;
   temp1->data = data;
   temp1->next = root;
+  if(root != nullptr) temp1->next = root;
   root = temp1;
-
-
 }
 
 void Search(node *root, int value){
@@ -41,19 +40,21 @@ node *predecessor(node *root, int value){
 }
 
 void Delete(node *root, int n){
-  node *temp = predecessor(root, n);                //Address of predecessor node  
+  node *previous_node = predecessor(root, n);                //Address of predecessor node  
 
-  if(temp){
-    node *temp1= temp->next;                // Address of the succesor node 
-    if(temp1){
-      temp->next = temp1->next;            //Connext predecessor to succesor
-      root = temp;
-      delete temp1;
+  if(previous_node){
+    node *current_node= previous_node->next;                // Address of the node to be deleted
+    if(current_node){
+      previous_node->next = current_node->next;            //Connect predecessor to succesor
+      delete current_node;
       return;
     }
+    else{
+        previous_node->next = nullptr;
+        delete current_node;
+        return;
+    }   
   }
-  
-  Delete(root->next,n);
 }
 
 void print(){
