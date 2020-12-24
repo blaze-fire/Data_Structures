@@ -8,23 +8,11 @@ struct Binary {
 }*bt;
 
 Binary *GetNewNode(int value){
-  Binary *NewNode = new Binary();
+  Binary *NewNode = new Binary;
   NewNode->data = value;
   NewNode->left = nullptr;
   NewNode->right = nullptr;
   return NewNode; 
-}
-
-void Insert(Binary *bt, int value){
-  if(bt == nullptr) bt = GetNewNode(value);
-
-  else if(value > bt->data){
-    Insert(bt->left, value);
-  }
-
-  else{
-    Insert(bt->right, value);
-  }
 }
 
 void print_dfs(Binary *bt){
@@ -42,13 +30,12 @@ void print_dfs(Binary *bt){
 
 int main() {
 
-  Insert(bt,1);
-  Insert(bt,2);
-  Insert(bt,3);
-  Insert(bt,4);
-  Insert(bt,5);
-  Insert(bt,6);
-  Insert(bt,7);
+  bt = GetNewNode(0);
+  bt->left = GetNewNode(1);
+  bt->right = GetNewNode(0);
+  (bt->right)->left = GetNewNode(1);
+  (bt->right)->right = GetNewNode(1);
+  
 
   print_dfs(bt);
   return 0;
