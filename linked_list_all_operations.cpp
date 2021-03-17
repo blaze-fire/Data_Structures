@@ -40,6 +40,13 @@ node *predecessor(node *head ,int data){
 }
 
 void Delete(int data){
+  if(root->data == data){
+    node *curr = root;
+    root = curr->next;
+    delete curr;
+    return;
+  }
+
   node *prev = predecessor(root, data);
   if(prev != nullptr){
     node *curr = prev->next;
@@ -96,7 +103,7 @@ int main(){
   Insert(4,3);
   print();
   //reverse();
-  Delete(5);
+  Delete(3);
   cout<<endl;
   print();
   return 0;
