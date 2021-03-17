@@ -1,110 +1,113 @@
 #include <iostream>
-
 using namespace std;
 
 struct node{
-  int data;
-  node *next;
-}*root;
+    int data;
+    node *next;
+};
 
-void push_back(int data){
-  node *temp = new node;
-  temp->data = data;
-  temp->next = nullptr;
-  if(root == nullptr){
+node *push_back(node *root, int data){
+    node *temp = new node();
+    temp->data = data;
+    temp->next = NULL;
+    if(root == NULL){
+        root = temp;
+        return root;
+    }
+    node *trav = root;
+    while(trav->next != NULL){
+        trav = trav->next;
+    }
+    trav->next = temp;
+    return root;
+}
+
+node *addFront(node *root, int data){
+    node *temp = new node();
+    temp->data = data;
+    temp->next = root;
     root = temp;
-    return;
-  }
-  node *trav = root;
-  while(trav->next != nullptr){
-    trav = trav->next;
-  }
-  trav->next = temp;
+    return root;
 }
 
-void addFront(int data){
-  node *temp = new node;
-  temp->data  = data;
-  temp->next = nullptr;
-  if(root != nullptr) temp->next = root;
-  root = temp;
+node *Insert(node *root, int data, int k){
+    node *head = root;
+    k--;
+    node *temp = new node();
+    temp->data = data; 
+    while(k>1){
+        head = head->next;
+        k--;
+    }
+    node *curr = head->next;
+    head->next = temp;
+    temp->next = curr;
+    return root;
 }
 
-node *predecessor(node *head ,int data){
-  if(head == nullptr) return nullptr;
-
-  if((head->next)->data == data){
+node *predecessor(node *root, int data){
+    node *head = root;
+    while((head->next)->data != data){
+        head = head->next;
+    }
     return head;
-  }
-  return predecessor(head->next, data);
 }
 
-void Delete(int data){
-  if(root->data == data){
-    node *curr = root;
-    root = curr->next;
-    delete curr;
-    return;
-  }
-
-  node *prev = predecessor(root, data);
-  if(prev != nullptr){
+node *Delete(node *root, int data){
+    if(root->data == data){
+        node *curr = root;
+        root = curr->next;
+        delete curr;
+        return root;
+    }
+    
+    node *prev = predecessor(root, data);
     node *curr = prev->next;
     node *next = curr->next;
     prev->next = next;
-    curr->next = nullptr;
+    curr->next = NULL;
     delete curr;
-  }
+    return root;
+    
 }
 
-void Insert(int data, int k){
-  node *temp = new node;
-  temp->data = data;
-  node *head = root;
-  k--;
-  while(k>1){
-    head = head->next;
-    k--;
-  }
-  node *curr = head->next;
-  head->next = temp;
-  temp->next = curr;
+node *reverse(node *root){
+    node *prev=NULL, *curr=root, *next = NULL;
+    while(curr != NULL){
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    root = prev;
+    return root;
 }
 
-
-void print(){
-  node *head = root;
-  while(head != nullptr){
-    cout<<head->data<<"     ";
-    head = head->next;
-  }
+void print(node *root){
+    node *head = root;
+    while(head != NULL){
+        cout<<head->data<<" ";
+        head = head->next;
+    }
 }
 
-void reverse(){
-  node *prev = nullptr, *curr = root, *next = nullptr;
-  while(curr != nullptr){
-    next = curr->next;
-    curr->next = prev;
-    prev = curr;
-    curr = next;
-  }
-  root = prev;
-}
-
-
-int main(){
-  root = nullptr;
-  push_back(5);
-  push_back(10);
-  push_back(15);
-  addFront(1);
-  addFront(2);
-  addFront(3);  
-  Insert(4,3);
-  print();
-  //reverse();
-  Delete(3);
-  cout<<endl;
-  print();
-  return 0;
+int main() {
+    node *root = NULL;
+    root = push_back(root, 5);
+    root = push_back(root, 3);
+    root = push_back(root, 2);
+    root = push_back(root, 4);
+    root = push_back(root, 7);
+    root = push_back(root, 8);
+    root = addFront(root, 10);
+    root = Insert(root, 20, 5);
+    cout<<"Linked list : ";
+    print(root);
+    cout<<endl<<"List after deleting 10 : ";
+    root = Delete(root, 10);
+    print(root);
+    cout<<endl<<"Reversed list : ";
+    root = reverse(root);
+    print(root);
+    return 0;
 }
