@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// Hashtable to implement a plhonebook e.g. (234,Amit)
+// Hashtable to implement a phonebook e.g. (234,Amit)
 
 class hashtable{
     private:
